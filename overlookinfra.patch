@@ -1,0 +1,315 @@
+diff --git a/configs/components/_base-ruby-selinux.rb b/configs/components/_base-ruby-selinux.rb
+index 0714b6f..456c9a8 100644
+--- a/configs/components/_base-ruby-selinux.rb
++++ b/configs/components/_base-ruby-selinux.rb
+@@ -63,7 +63,7 @@ end
+ cflags = ""
+ 
+ # The platforms below use pl-build-tools
+-unless platform.name =~ /el-(6|7)|ubuntu-(16|18.04-amd64)/
++unless platform.name =~ /el-6|ubuntu-(16-amd64)/
+   cc = '/usr/bin/gcc'
+   cflags += "#{settings[:cppflags]} #{settings[:cflags]}"
+ end
+diff --git a/configs/components/boost.rb b/configs/components/boost.rb
+index dfc93cc..e76ee8a 100644
+--- a/configs/components/boost.rb
++++ b/configs/components/boost.rb
+@@ -122,11 +122,17 @@ component "boost" do |pkg, settings, platform|
+     pkg.environment "CXXFLAGS", "-pthread"
+     pkg.environment "PATH", "/opt/freeware/bin:/opt/pl-build-tools/bin:$(PATH)"
+     linkflags = "-Wl,-L#{settings[:libdir]},-L/opt/pl-build-tools/lib"
+-  elsif platform.name =~ /el-[567]|redhatfips-7|sles-(:?11|12)|ubuntu-18.04-amd64/
++  elsif platform.name =~ /el-[56]|redhatfips-7|sles-(:?11|12)/
+     pkg.environment "PATH", "/opt/pl-build-tools/bin:#{settings[:bindir]}:$(PATH)"
+     linkflags = "-Wl,-rpath=#{settings[:libdir]},-rpath=#{settings[:libdir]}64"
++  elsif platform.name =~ /el-7/
++    pkg.environment "PATH", "/opt/rh/devtoolset-7/root/usr/bin:$(PATH)"
++    # Not sure this actually does anything
++    pkg.environment "CMAKE_CXX_COMPILER", "/opt/rh/devtoolset-7/root/usr/bin/gcc"
++
++    linkflags = "-Wl,-rpath=#{settings[:libdir]},-rpath=#{settings[:libdir]}64"
++    gpp = '/opt/rh/devtoolset-7/root/usr/bin/g++'
+   else
+-    pkg.environment "PATH", "/opt/pl-build-tools/bin:#{settings[:bindir]}:$(PATH)"
+     linkflags = "#{settings[:ldflags]},-rpath=#{settings[:libdir]}64"
+     gpp = '/usr/bin/g++'
+   end
+diff --git a/configs/components/libicu.rb b/configs/components/libicu.rb
+index 203d803..ae85269 100644
+--- a/configs/components/libicu.rb
++++ b/configs/components/libicu.rb
+@@ -20,7 +20,7 @@ component 'libicu' do |pkg, settings, platform|
+   end
+ 
+   if platform.is_linux?
+-    if platform.name =~ /el-[67]|redhatfips-7|sles-12|ubuntu-18.04-amd64/
++    if platform.name =~ /el-6|redhatfips-7/
+       pkg.build_requires 'pl-gcc'
+     else
+       pkg.build_requires 'gcc'
+diff --git a/configs/components/runtime-agent.rb b/configs/components/runtime-agent.rb
+index 4bf9161..b4046b2 100644
+--- a/configs/components/runtime-agent.rb
++++ b/configs/components/runtime-agent.rb
+@@ -72,7 +72,7 @@ component "runtime-agent" do |pkg, settings, platform|
+     pkg.install_file "#{settings[:tools_root]}/bin/libiconv-2.dll", "#{settings[:ruby_bindir]}/libiconv-2.dll"
+     pkg.install_file "#{settings[:tools_root]}/bin/libffi-6.dll", "#{settings[:ruby_bindir]}/libffi-6.dll"
+   elsif platform.is_solaris? ||
+-        platform.name =~ /el-[567]|redhatfips-7|sles-(:?11|12)|ubuntu-18.04-amd64/
++        platform.name =~ /el-[56]|redhatfips-7|sles-(:?11)/
+     pkg.install do
+       "bash runtime.sh #{libdir} puppet"
+     end
+diff --git a/configs/components/runtime-client-tools.rb b/configs/components/runtime-client-tools.rb
+index 15f4839..3d4f049 100644
+--- a/configs/components/runtime-client-tools.rb
++++ b/configs/components/runtime-client-tools.rb
+@@ -11,7 +11,7 @@ component "runtime-client-tools" do |pkg, settings, platform|
+     # zlib is a runtime dependency of libcurl
+     pkg.build_requires "pl-zlib-#{platform.architecture}"
+     pkg.install_file "#{settings[:tools_root]}/bin/zlib1.dll", "#{settings[:bindir]}/zlib1.dll"
+-  elsif platform.name =~ /el-[67]|redhatfips-7|sles-12|ubuntu-18.04-amd64/
++  elsif platform.name =~ /el-6|redhatfips-7/
+     libbase = platform.architecture =~ /64/ ? 'lib64' : 'lib'
+     libdir = "/opt/pl-build-tools/#{libbase}"
+     pkg.add_source "file://resources/files/runtime/runtime.sh"
+diff --git a/configs/components/yaml-cpp.rb b/configs/components/yaml-cpp.rb
+index 97383e9..f7d4786 100644
+--- a/configs/components/yaml-cpp.rb
++++ b/configs/components/yaml-cpp.rb
+@@ -47,7 +47,7 @@ component "yaml-cpp" do |pkg, settings, platform|
+     pkg.environment "CYGWIN", settings[:cygwin]
+     cmake = "C:/ProgramData/chocolatey/bin/cmake.exe -G \"MinGW Makefiles\""
+     cmake_toolchain_file = "-DCMAKE_TOOLCHAIN_FILE=#{settings[:tools_root]}/pl-build-toolchain.cmake"
+-  elsif platform.name =~ /aix-7\.1-ppc|debian-9|el-[567]|redhatfips-7|sles-(?:11|12)|ubuntu-18\.04-amd64/
++  elsif platform.name =~ /aix-7\.1-ppc|el-[56]|redhatfips-7|sles-(?:11)/
+     cmake = "#{settings[:tools_root]}/bin/cmake"
+     cmake_toolchain_file = "-DCMAKE_TOOLCHAIN_FILE=#{settings[:tools_root]}/pl-build-toolchain.cmake"
+   else
+@@ -62,16 +62,19 @@ component "yaml-cpp" do |pkg, settings, platform|
+ 
+   # Build Commands
+   pkg.build do
+-    [ "#{mkdir} build",
+-      "cd build",
+-      "#{cmake} \
++    buildcmd = "#{cmake} \
+       #{cmake_toolchain_file} \
+       -DCMAKE_INSTALL_PREFIX=#{settings[:prefix]} \
+       -DCMAKE_VERBOSE_MAKEFILE=ON \
+       -DYAML_CPP_BUILD_TOOLS=0 \
+       -DYAML_CPP_BUILD_TESTS=0 \
+-      -DBUILD_SHARED_LIBS=ON \
+-      .. ",
++      -DBUILD_SHARED_LIBS=ON "
++    buildcmd += "-DCMAKE_CXX_COMPILER='/opt/rh/devtoolset-7/root/usr/bin/g++'" if platform.name =~ /el-7/
++    buildcmd += " .. "
++
++    [ "#{mkdir} build",
++      "cd build",
++      buildcmd,
+       "#{make} VERBOSE=1 -j$(shell expr $(shell #{platform[:num_cores]}) + 1)",
+     ]
+   end
+diff --git a/configs/platforms/debian-11-amd64.rb b/configs/platforms/debian-11-amd64.rb
+index d371e16..a4b9abd 100644
+--- a/configs/platforms/debian-11-amd64.rb
++++ b/configs/platforms/debian-11-amd64.rb
+@@ -1,29 +1,10 @@
+ platform "debian-11-amd64" do |plat|
+-  # Delete the 6 lines below when a vanagon with Debian 11 support is released
+-  plat.servicedir "/lib/systemd/system"
+-  plat.defaultdir "/etc/default"
+-  plat.servicetype "systemd"
+-  plat.codename "bullseye"
+-  plat.vmpooler_template "debian-11-x86_64"
+-  plat.install_build_dependencies_with "DEBIAN_FRONTEND=noninteractive; apt-get install -qy --no-install-recommends "
+-
+-  # Uncomment these when a vanagon with Debian 11 support is released
+-  # plat.inherit_from_default
+-  # plat.clear_provisioning
++  plat.inherit_from_default
+ 
+   packages = [
+-    'build-essential',
+-    'cmake',
+-    'debhelper',
+-    'devscripts',
+-    'fakeroot',
+     'libbz2-dev',
+     'libreadline-dev',
+     'libselinux1-dev',
+-    'make',
+-    'pkg-config',
+-    'quilt',
+-    'rsync',
+     'swig',
+     'systemtap-sdt-dev',
+     'zlib1g-dev'
+diff --git a/configs/platforms/el-7-x86_64.rb b/configs/platforms/el-7-x86_64.rb
+index d57f578..77a6c89 100644
+--- a/configs/platforms/el-7-x86_64.rb
++++ b/configs/platforms/el-7-x86_64.rb
+@@ -6,8 +6,6 @@ platform "el-7-x86_64" do |plat|
+     libsepol-devel
+     libselinux-devel
+     pkgconfig
+-    pl-cmake
+-    pl-gcc
+     readline-devel
+     rpm-build
+     swig
+diff --git a/configs/platforms/el-9-ppc64le.rb b/configs/platforms/el-9-ppc64le.rb
+index e90d8c9..8f9951c 100644
+--- a/configs/platforms/el-9-ppc64le.rb
++++ b/configs/platforms/el-9-ppc64le.rb
+@@ -1,3 +1,4 @@
+ platform 'el-9-ppc64le' do |plat|
+   plat.inherit_from_default
++  plat.provision_with("dnf install -y --allowerasing swig")
+ end
+diff --git a/configs/platforms/el-9-x86_64.rb b/configs/platforms/el-9-x86_64.rb
+index 9bd4f42..acd060c 100644
+--- a/configs/platforms/el-9-x86_64.rb
++++ b/configs/platforms/el-9-x86_64.rb
+@@ -1,27 +1,7 @@
+ platform "el-9-x86_64" do |plat|
+-  plat.servicedir "/usr/lib/systemd/system"
+-  plat.defaultdir "/etc/sysconfig"
+-  plat.servicetype "systemd"
+-
+-  # Temporary fix until new rhel 9 image is built
+-  if File.exist?("/etc/yum.repos.d/localmirror-appstream.repo")
+-    plat.provision_with("sed -i 's/beta-x86_64\\/baseos\\/x86_64/base/' /etc/yum.repos.d/localmirror-baseos.repo; sed -i 's/beta-x86_64\\/appstream\\/x86_64/appstream/' /etc/yum.repos.d/localmirror-appstream.repo")
+-  end
++  plat.inherit_from_default
+ 
+   packages = %w(
+-    gcc
+-    gcc-c++
+-    autoconf
+-    automake
+-    createrepo
+-    rsync
+-    cmake
+-    make
+-    rpm-libs
+-    rpm-build
+-    rpm-sign
+-    libtool
+-    libarchive
+     libsepol
+     libsepol-devel
+     pkgconfig
+@@ -32,9 +12,6 @@ platform "el-9-x86_64" do |plat|
+     yum-utils
+     zlib-devel
+   )
+-
+-  plat.provision_with "dnf install -y --allowerasing #{packages.join(' ')}"
+-  plat.install_build_dependencies_with "dnf install -y --allowerasing "
+-  plat.vmpooler_template "redhat-9-x86_64"
++  plat.provision_with("dnf install -y --allowerasing  #{packages.join(' ')}")
+ end
+ 
+diff --git a/configs/platforms/ubuntu-18.04-amd64.rb b/configs/platforms/ubuntu-18.04-amd64.rb
+index 97bcedb..ffdebf6 100644
+--- a/configs/platforms/ubuntu-18.04-amd64.rb
++++ b/configs/platforms/ubuntu-18.04-amd64.rb
+@@ -5,8 +5,8 @@ platform "ubuntu-18.04-amd64" do |plat|
+     libbz2-dev
+     libreadline-dev
+     libselinux1-dev
+-    pl-cmake
+-    pl-gcc
++    cmake
++    gcc
+     swig 
+     systemtap-sdt-dev
+     zlib1g-dev
+diff --git a/configs/platforms/ubuntu-20.04-amd64.rb b/configs/platforms/ubuntu-20.04-amd64.rb
+index a3ad6a0..bbd98b0 100644
+--- a/configs/platforms/ubuntu-20.04-amd64.rb
++++ b/configs/platforms/ubuntu-20.04-amd64.rb
+@@ -11,5 +11,4 @@ platform "ubuntu-20.04-amd64" do |plat|
+     zlib1g-dev
+   )
+   plat.provision_with "export DEBIAN_FRONTEND=noninteractive && apt-get update -qq && apt-get install -qy --no-install-recommends #{packages.join(' ')}"
+-  plat.provision_with "curl https://artifactory.delivery.puppetlabs.net/artifactory/api/gpg/key/public | apt-key add -"
+ end
+diff --git a/configs/platforms/ubuntu-22.04-amd64.rb b/configs/platforms/ubuntu-22.04-amd64.rb
+index 6cef37e..9ebc1a0 100644
+--- a/configs/platforms/ubuntu-22.04-amd64.rb
++++ b/configs/platforms/ubuntu-22.04-amd64.rb
+@@ -11,5 +11,4 @@ platform "ubuntu-22.04-amd64" do |plat|
+     zlib1g-dev
+   )
+   plat.provision_with "export DEBIAN_FRONTEND=noninteractive && apt-get update -qq && apt-get install -qy --no-install-recommends #{packages.join(' ')}"
+-  plat.provision_with "curl https://artifactory.delivery.puppetlabs.net/artifactory/api/gpg/key/public | apt-key add -"
+ end
+diff --git a/configs/platforms/ubuntu-24.04-amd64.rb b/configs/platforms/ubuntu-24.04-amd64.rb
+index fd8f619..162cef9 100644
+--- a/configs/platforms/ubuntu-24.04-amd64.rb
++++ b/configs/platforms/ubuntu-24.04-amd64.rb
+@@ -11,5 +11,4 @@ platform "ubuntu-24.04-amd64" do |plat|
+     zlib1g-dev
+   )
+   plat.provision_with "export DEBIAN_FRONTEND=noninteractive && apt-get update -qq && apt-get install -qy --no-install-recommends #{packages.join(' ')}"
+-  plat.provision_with "curl https://artifactory.delivery.puppetlabs.net/artifactory/api/gpg/key/public | apt-key add -"
+ end
+diff --git a/configs/platforms/windows-2019-x64.rb b/configs/platforms/windows-2019-x64.rb
+index e8a9abc..754af32 100644
+--- a/configs/platforms/windows-2019-x64.rb
++++ b/configs/platforms/windows-2019-x64.rb
+@@ -1,5 +1,8 @@
+ platform "windows-2019-x64" do |plat|
+   plat.vmpooler_template "win-2019-x86_64"
++  plat.docker_image "windows:ltsc2019"
++  plat.docker_registry "mcr.microsoft.com"
++  plat.docker_arch "linux/amd64"
+ 
+   plat.servicetype "windows"
+   visual_studio_version = '2017'
+diff --git a/configs/projects/_shared-client-tools-runtime.rb b/configs/projects/_shared-client-tools-runtime.rb
+index 701081b..342b364 100644
+--- a/configs/projects/_shared-client-tools-runtime.rb
++++ b/configs/projects/_shared-client-tools-runtime.rb
+@@ -28,9 +28,6 @@ else
+   proj.setting(:openssl_version, '1.1.1')
+ end
+ 
+-proj.setting(:artifactory_url, "https://artifactory.delivery.puppetlabs.net/artifactory")
+-proj.setting(:buildsources_url, "#{proj.artifactory_url}/generic/buildsources")
+-
+ if platform.is_windows?
+   # Windows Installer settings.
+   proj.setting(:company_id, "PuppetLabs")
+diff --git a/configs/projects/bolt-runtime.rb b/configs/projects/bolt-runtime.rb
+index 6141ab4..9f74a9e 100644
+--- a/configs/projects/bolt-runtime.rb
++++ b/configs/projects/bolt-runtime.rb
+@@ -65,9 +65,6 @@ project 'bolt-runtime' do |proj|
+   proj.setting(:platform_triple, platform_triple)
+   proj.setting(:host, host)
+ 
+-  proj.setting(:artifactory_url, "https://artifactory.delivery.puppetlabs.net/artifactory")
+-  proj.setting(:buildsources_url, "#{proj.artifactory_url}/generic/buildsources")
+-
+   # Define default CFLAGS and LDFLAGS for most platforms, and then
+   # tweak or adjust them as needed.
+   proj.setting(:cppflags, "-I#{proj.includedir} -I/opt/pl-build-tools/include")
+diff --git a/configs/projects/pdk-runtime.rb b/configs/projects/pdk-runtime.rb
+index 99a996c..63c5487 100644
+--- a/configs/projects/pdk-runtime.rb
++++ b/configs/projects/pdk-runtime.rb
+@@ -24,9 +24,6 @@ project 'pdk-runtime' do |proj|
+     '-DOPENSSL_NO_HEARTBEATS'
+     ])
+ 
+-  proj.setting(:artifactory_url, 'https://artifactory.delivery.puppetlabs.net/artifactory')
+-  proj.setting(:buildsources_url, "#{proj.artifactory_url}/generic/buildsources")
+-
+   proj.description 'The PDK runtime contains third-party components needed for the puppet developer kit'
+   proj.license 'See components'
+   proj.vendor 'Puppet, Inc.  <info@puppet.com>'
