@@ -11,9 +11,14 @@ def location_for(place)
 end
 
 gem 'artifactory'
-gem 'vanagon', *location_for(ENV['VANAGON_LOCATION'] || '~> 0.39')
+# We must do this here in the plumbing branch so that when the build script
+# runs with VANAGON_LOCATION set, it already has the right gem installed.
+# Bundler seems to get confused when the rake tasks runs with a different
+# vanagon version in the bundle.
+gem 'vanagon', *location_for("https://github.com/overlookinfra/vanagon#main")
 gem 'packaging', *location_for(ENV['PACKAGING_LOCATION'] || '~> 0.105')
 gem 'rake', '~> 13.0'
+gem 'pry-byebug'
 
 group(:development, optional: true) do
   gem 'highline', require: false
