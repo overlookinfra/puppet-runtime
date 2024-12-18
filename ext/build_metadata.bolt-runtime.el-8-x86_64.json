@@ -1,0 +1,392 @@
+{
+  "packaging_type": {
+    "vanagon": "0"
+  },
+  "version": "202411130.overlookinfra",
+  "components": {
+    "libffi": {
+      "version": "3.4.6",
+      "url": "https://github.com/libffi/libffi/releases/download/v3.4.6/libffi-3.4.6.tar.gz"
+    },
+    "libyaml": {
+      "version": "0.2.5",
+      "url": "https://github.com/yaml/libyaml/releases/download/0.2.5/yaml-0.2.5.tar.gz"
+    },
+    "openssl-3.0": {
+      "version": "3.0.15",
+      "url": "https://github.com/openssl/openssl/releases/download/openssl-3.0.15/openssl-3.0.15.tar.gz"
+    },
+    "runtime-bolt": {},
+    "puppet-ca-bundle": {
+      "version": "1.0.12",
+      "url": "https://github.com/puppetlabs/puppet-ca-bundle.git",
+      "ref": "refs/tags/1.0.12"
+    },
+    "ruby-3.2.5": {
+      "version": "3.2.5",
+      "url": "https://cache.ruby-lang.org/pub/ruby/3.2/ruby-3.2.5.tar.gz"
+    },
+    "rubygem-bcrypt_pbkdf": {
+      "version": "1.1.1",
+      "url": "https://rubygems.org/downloads/bcrypt_pbkdf-1.1.1.gem"
+    },
+    "rubygem-ed25519": {
+      "version": "1.3.0",
+      "url": "https://rubygems.org/downloads/ed25519-1.3.0.gem"
+    },
+    "rubygem-hocon": {
+      "version": "1.3.1",
+      "url": "https://rubygems.org/downloads/hocon-1.3.1.gem"
+    },
+    "rubygem-deep_merge": {
+      "version": "1.2.2",
+      "url": "https://rubygems.org/downloads/deep_merge-1.2.2.gem"
+    },
+    "rubygem-text": {
+      "version": "1.3.1",
+      "url": "https://rubygems.org/downloads/text-1.3.1.gem"
+    },
+    "rubygem-locale": {
+      "version": "2.1.4",
+      "url": "https://rubygems.org/downloads/locale-2.1.4.gem"
+    },
+    "rubygem-gettext": {
+      "version": "3.4.9",
+      "url": "https://rubygems.org/downloads/gettext-3.4.9.gem"
+    },
+    "rubygem-prime": {
+      "version": "0.1.2",
+      "url": "https://rubygems.org/downloads/prime-0.1.2.gem"
+    },
+    "rubygem-fast_gettext": {
+      "version": "2.4.0",
+      "url": "https://rubygems.org/downloads/fast_gettext-2.4.0.gem"
+    },
+    "rubygem-scanf": {
+      "version": "1.0.0",
+      "url": "https://rubygems.org/downloads/scanf-1.0.0.gem"
+    },
+    "rubygem-semantic_puppet": {
+      "version": "1.1.0",
+      "url": "https://rubygems.org/downloads/semantic_puppet-1.1.0.gem"
+    },
+    "rubygem-gettext-setup": {
+      "version": "1.1.0",
+      "url": "https://rubygems.org/downloads/gettext-setup-1.1.0.gem"
+    },
+    "rubygem-highline": {
+      "version": "3.1.0",
+      "url": "https://rubygems.org/downloads/highline-3.1.0.gem"
+    },
+    "rubygem-optimist": {
+      "version": "3.1.0",
+      "url": "https://rubygems.org/downloads/optimist-3.1.0.gem"
+    },
+    "rubygem-hiera-eyaml": {
+      "version": "3.4.0",
+      "url": "https://rubygems.org/downloads/hiera-eyaml-3.4.0.gem"
+    },
+    "rubygem-faraday": {
+      "version": "2.12.0",
+      "url": "https://rubygems.org/downloads/faraday-2.12.0.gem"
+    },
+    "rubygem-faraday-em_http": {
+      "version": "1.0.0",
+      "url": "https://rubygems.org/downloads/faraday-em_http-1.0.0.gem"
+    },
+    "rubygem-faraday-em_synchrony": {
+      "version": "1.0.0",
+      "url": "https://rubygems.org/downloads/faraday-em_synchrony-1.0.0.gem"
+    },
+    "rubygem-faraday-excon": {
+      "version": "1.1.0",
+      "url": "https://rubygems.org/downloads/faraday-excon-1.1.0.gem"
+    },
+    "rubygem-faraday-httpclient": {
+      "version": "1.0.1",
+      "url": "https://rubygems.org/downloads/faraday-httpclient-1.0.1.gem"
+    },
+    "rubygem-faraday-multipart": {
+      "version": "1.0.4",
+      "url": "https://rubygems.org/downloads/faraday-multipart-1.0.4.gem"
+    },
+    "rubygem-faraday-net_http": {
+      "version": "3.3.0",
+      "url": "https://rubygems.org/downloads/faraday-net_http-3.3.0.gem"
+    },
+    "rubygem-faraday-net_http_persistent": {
+      "version": "2.3.0",
+      "url": "https://rubygems.org/downloads/faraday-net_http_persistent-2.3.0.gem"
+    },
+    "rubygem-faraday-patron": {
+      "version": "1.0.0",
+      "url": "https://rubygems.org/downloads/faraday-patron-1.0.0.gem"
+    },
+    "rubygem-faraday-rack": {
+      "version": "1.0.0",
+      "url": "https://rubygems.org/downloads/faraday-rack-1.0.0.gem"
+    },
+    "rubygem-faraday-retry": {
+      "version": "1.0.3",
+      "url": "https://rubygems.org/downloads/faraday-retry-1.0.3.gem"
+    },
+    "rubygem-faraday-follow_redirects": {
+      "version": "0.3.0",
+      "url": "https://rubygems.org/downloads/faraday-follow_redirects-0.3.0.gem"
+    },
+    "rubygem-ruby2_keywords": {
+      "version": "0.0.5",
+      "url": "https://rubygems.org/downloads/ruby2_keywords-0.0.5.gem"
+    },
+    "rubygem-addressable": {
+      "version": "2.8.7",
+      "url": "https://rubygems.org/downloads/addressable-2.8.7.gem"
+    },
+    "rubygem-aws-eventstream": {
+      "version": "1.3.0",
+      "url": "https://rubygems.org/downloads/aws-eventstream-1.3.0.gem"
+    },
+    "rubygem-aws-partitions": {
+      "version": "1.989.0",
+      "url": "https://rubygems.org/downloads/aws-partitions-1.989.0.gem"
+    },
+    "rubygem-aws-sdk-core": {
+      "version": "3.209.1",
+      "url": "https://rubygems.org/downloads/aws-sdk-core-3.209.1.gem"
+    },
+    "rubygem-aws-sdk-ec2": {
+      "version": "1.481.0",
+      "url": "https://rubygems.org/downloads/aws-sdk-ec2-1.481.0.gem"
+    },
+    "rubygem-aws-sigv4": {
+      "version": "1.10.0",
+      "url": "https://rubygems.org/downloads/aws-sigv4-1.10.0.gem"
+    },
+    "rubygem-bindata": {
+      "version": "2.5.0",
+      "url": "https://rubygems.org/downloads/bindata-2.5.0.gem"
+    },
+    "rubygem-builder": {
+      "version": "3.3.0",
+      "url": "https://rubygems.org/downloads/builder-3.3.0.gem"
+    },
+    "rubygem-CFPropertyList": {
+      "version": "3.0.7",
+      "url": "https://rubygems.org/downloads/CFPropertyList-3.0.7.gem"
+    },
+    "rubygem-colored2": {
+      "version": "3.1.2",
+      "url": "https://rubygems.org/downloads/colored2-3.1.2.gem"
+    },
+    "rubygem-concurrent-ruby": {
+      "version": "1.2.3",
+      "url": "https://rubygems.org/downloads/concurrent-ruby-1.2.3.gem"
+    },
+    "rubygem-connection_pool": {
+      "version": "2.4.1",
+      "url": "https://rubygems.org/downloads/connection_pool-2.4.1.gem"
+    },
+    "rubygem-cri": {
+      "version": "2.15.12",
+      "url": "https://rubygems.org/downloads/cri-2.15.12.gem"
+    },
+    "rubygem-erubi": {
+      "version": "1.13.0",
+      "url": "https://rubygems.org/downloads/erubi-1.13.0.gem"
+    },
+    "rubygem-facter": {
+      "version": "4.9.0",
+      "url": "https://rubygems.org/downloads/facter-4.9.0.gem"
+    },
+    "rubygem-ffi": {
+      "version": "1.16.3",
+      "url": "https://rubygems.org/downloads/ffi-1.16.3.gem"
+    },
+    "rubygem-gssapi": {
+      "version": "1.3.1",
+      "url": "https://rubygems.org/downloads/gssapi-1.3.1.gem"
+    },
+    "rubygem-gyoku": {
+      "version": "1.4.0",
+      "url": "https://rubygems.org/downloads/gyoku-1.4.0.gem"
+    },
+    "rubygem-hiera": {
+      "version": "3.12.0",
+      "url": "https://rubygems.org/downloads/hiera-3.12.0.gem"
+    },
+    "rubygem-httpclient": {
+      "version": "2.8.3",
+      "url": "https://rubygems.org/downloads/httpclient-2.8.3.gem"
+    },
+    "rubygem-jmespath": {
+      "version": "1.6.2",
+      "url": "https://rubygems.org/downloads/jmespath-1.6.2.gem"
+    },
+    "rubygem-jwt": {
+      "version": "2.7.1",
+      "url": "https://rubygems.org/downloads/jwt-2.7.1.gem"
+    },
+    "rubygem-little-plugger": {
+      "version": "1.1.4",
+      "url": "https://rubygems.org/downloads/little-plugger-1.1.4.gem"
+    },
+    "rubygem-log4r": {
+      "version": "1.1.10",
+      "url": "https://rubygems.org/downloads/log4r-1.1.10.gem"
+    },
+    "rubygem-logging": {
+      "version": "2.4.0",
+      "url": "https://rubygems.org/downloads/logging-2.4.0.gem"
+    },
+    "rubygem-minitar": {
+      "version": "0.12.1",
+      "url": "https://rubygems.org/downloads/minitar-0.12.1.gem"
+    },
+    "rubygem-molinillo": {
+      "version": "0.8.0",
+      "url": "https://rubygems.org/downloads/molinillo-0.8.0.gem"
+    },
+    "rubygem-multi_json": {
+      "version": "1.15.0",
+      "url": "https://rubygems.org/downloads/multi_json-1.15.0.gem"
+    },
+    "rubygem-multipart-post": {
+      "version": "2.4.1",
+      "url": "https://rubygems.org/downloads/multipart-post-2.4.1.gem"
+    },
+    "rubygem-net-http-persistent": {
+      "version": "4.0.4",
+      "url": "https://rubygems.org/downloads/net-http-persistent-4.0.4.gem"
+    },
+    "rubygem-net-scp": {
+      "version": "4.0.0",
+      "url": "https://rubygems.org/downloads/net-scp-4.0.0.gem"
+    },
+    "rubygem-net-ssh": {
+      "version": "7.2.3",
+      "url": "https://rubygems.org/downloads/net-ssh-7.2.3.gem"
+    },
+    "rubygem-net-ssh-krb": {
+      "version": "0.5.1",
+      "url": "https://rubygems.org/downloads/net-ssh-krb-0.5.1.gem"
+    },
+    "rubygem-nori": {
+      "version": "2.7.1",
+      "url": "https://rubygems.org/downloads/nori-2.7.1.gem"
+    },
+    "rubygem-orchestrator_client": {
+      "version": "0.7.1",
+      "url": "https://rubygems.org/downloads/orchestrator_client-0.7.1.gem"
+    },
+    "rubygem-paint": {
+      "version": "2.3.0",
+      "url": "https://rubygems.org/downloads/paint-2.3.0.gem"
+    },
+    "rubygem-public_suffix": {
+      "version": "6.0.1",
+      "url": "https://rubygems.org/downloads/public_suffix-6.0.1.gem"
+    },
+    "rubygem-puppet": {
+      "version": "8.10.0",
+      "url": "https://rubygems.org/downloads/puppet-8.10.0.gem"
+    },
+    "rubygem-puppet_forge": {
+      "version": "5.0.4",
+      "url": "https://rubygems.org/downloads/puppet_forge-5.0.4.gem"
+    },
+    "rubygem-puppet-resource_api": {
+      "version": "1.9.0",
+      "url": "https://rubygems.org/downloads/puppet-resource_api-1.9.0.gem"
+    },
+    "rubygem-puppet-strings": {
+      "version": "4.1.2",
+      "url": "https://rubygems.org/downloads/puppet-strings-4.1.2.gem"
+    },
+    "rubygem-puppetfile-resolver": {
+      "version": "0.6.3",
+      "url": "https://rubygems.org/downloads/puppetfile-resolver-0.6.3.gem"
+    },
+    "rubygem-r10k": {
+      "version": "4.1.0",
+      "url": "https://rubygems.org/downloads/r10k-4.1.0.gem"
+    },
+    "rubygem-rgen": {
+      "version": "0.9.1",
+      "url": "https://rubygems.org/downloads/rgen-0.9.1.gem"
+    },
+    "rubygem-rubyntlm": {
+      "version": "0.6.3",
+      "url": "https://rubygems.org/downloads/rubyntlm-0.6.3.gem"
+    },
+    "rubygem-ruby_smb": {
+      "version": "1.1.0",
+      "url": "https://rubygems.org/downloads/ruby_smb-1.1.0.gem"
+    },
+    "rubygem-rubyzip": {
+      "version": "2.3.2",
+      "url": "https://rubygems.org/downloads/rubyzip-2.3.2.gem"
+    },
+    "rubygem-sys-filesystem": {
+      "version": "1.4.4",
+      "url": "https://rubygems.org/downloads/sys-filesystem-1.4.4.gem"
+    },
+    "rubygem-terminal-table": {
+      "version": "3.0.2",
+      "url": "https://rubygems.org/downloads/terminal-table-3.0.2.gem"
+    },
+    "rubygem-thor": {
+      "version": "1.2.2",
+      "url": "https://rubygems.org/downloads/thor-1.2.2.gem"
+    },
+    "rubygem-unicode-display_width": {
+      "version": "2.6.0",
+      "url": "https://rubygems.org/downloads/unicode-display_width-2.6.0.gem"
+    },
+    "rubygem-webrick": {
+      "version": "1.8.1",
+      "url": "https://rubygems.org/downloads/webrick-1.8.1.gem"
+    },
+    "rubygem-yard": {
+      "version": "0.9.36",
+      "url": "https://rubygems.org/downloads/yard-0.9.36.gem"
+    },
+    "rubygem-windows_error": {
+      "version": "0.1.5",
+      "url": "https://rubygems.org/downloads/windows_error-0.1.5.gem"
+    },
+    "rubygem-winrm": {
+      "version": "2.3.9",
+      "url": "https://rubygems.org/downloads/winrm-2.3.9.gem"
+    },
+    "rubygem-winrm-fs": {
+      "version": "1.3.5",
+      "url": "https://rubygems.org/downloads/winrm-fs-1.3.5.gem"
+    },
+    "ruby-selinux": {
+      "version": "2.9",
+      "url": "https://github.com/SELinuxProject/selinux/releases/download/20190315/libselinux-2.9.tar.gz"
+    },
+    "augeas": {
+      "version": "1.14.1",
+      "url": "https://github.com/hercules-team/augeas/releases/download/release-1.14.1/augeas-1.14.1.tar.gz"
+    },
+    "libxml2": {
+      "version": "2.13.4",
+      "url": "https://download.gnome.org/sources/libxml2/2.13/libxml2-2.13.4.tar.xz"
+    },
+    "libxslt": {
+      "version": "1.1.42",
+      "url": "https://download.gnome.org/sources/libxslt/1.1/libxslt-1.1.42.tar.xz"
+    },
+    "ruby-augeas": {
+      "version": "0.5.0",
+      "url": "http://download.augeas.net/ruby/ruby-augeas-0.5.0.tgz"
+    },
+    "ruby-shadow": {
+      "version": "2.5.0",
+      "url": "https://github.com/apalmblad/ruby-shadow",
+      "ref": "refs/tags/2.5.0"
+    }
+  },
+  "build_time": "2024-11-26T10:53:53-08:00"
+}

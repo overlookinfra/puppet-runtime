@@ -1,0 +1,30 @@
+Starting build of amazon-2023-aarch64
+Note: switching to '202411130-overlookinfra'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at 744354a 202411130-overlookinfra
+Bundle complete! 9 Gemfile dependencies, 51 gems now installed.
+Bundled gems are installed into `../../../Users/nick/work/puppet-runtime/.bundle`
+build: Warning: use of stand alone 'build' command is deprecated and may be removed.
+     Use: 'vanagon build' instead.
+/Users/nick/work/puppet-runtime/.bundle/ruby/3.2.0/bin/vanagon: line 9: require: command not found
+/Users/nick/work/puppet-runtime/.bundle/ruby/3.2.0/bin/vanagon: line 11: Gem.use_gemdeps: command not found
+/Users/nick/work/puppet-runtime/.bundle/ruby/3.2.0/bin/vanagon: line 13: version: command not found
+/Users/nick/work/puppet-runtime/.bundle/ruby/3.2.0/bin/vanagon: line 15: str: command not found
+/Users/nick/work/puppet-runtime/.bundle/ruby/3.2.0/bin/vanagon: line 17: syntax error near unexpected token `('
+/Users/nick/work/puppet-runtime/.bundle/ruby/3.2.0/bin/vanagon: line 17: `  str = str.b[/\A_(.*)_\z/, 1]'
+Command failed with exit status: 2
